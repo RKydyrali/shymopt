@@ -42,8 +42,8 @@ export const getAll = query({
 
     const lotsWithDetails = await Promise.all(
       lots.map(async (lot) => {
-        const farmer = await ctx.db.get(lot.farmerId);
-        const category = await ctx.db.get(lot.categoryId);
+        const farmer = await ctx.db.get(lot.farmerId) as any;
+        const category = await ctx.db.get(lot.categoryId) as any;
 
         const reviews = await ctx.db
           .query("reviews")
@@ -85,8 +85,8 @@ export const getById = query({
     const lot = await ctx.db.get(args.id);
     if (!lot) return null;
 
-    const farmer = await ctx.db.get(lot.farmerId);
-    const category = await ctx.db.get(lot.categoryId);
+    const farmer = await ctx.db.get(lot.farmerId) as any;
+    const category = await ctx.db.get(lot.categoryId) as any;
 
     const reviews = await ctx.db
       .query("reviews")
@@ -105,7 +105,7 @@ export const getById = query({
 
     const farmerReviews = await Promise.all(
       reviews.slice(0, 10).map(async (review) => {
-        const buyer = await ctx.db.get(review.buyerId);
+        const buyer = await ctx.db.get(review.buyerId) as any;
         return {
           ...review,
           buyerName: buyer?.name ?? "Аноним",

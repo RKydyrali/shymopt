@@ -26,7 +26,7 @@ export default function Layout() {
   const notifications = useQuery(api.notifications.getByUser, userId ? { userId: userId as Id<"users"> } : "skip");
   const markRead = useMutation(api.notifications.markRead);
   const markAllRead = useMutation(api.notifications.markAllRead);
-  const unreadCount = notifications?.filter(n => !n.isRead).length || 0;
+  const unreadCount = notifications?.filter((n: { isRead: boolean }) => !n.isRead).length || 0;
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 8);
@@ -76,9 +76,9 @@ export default function Layout() {
     return location.pathname.startsWith(to);
   };
 
-  const handleNotificationClick = async (n: any) => {
+  const handleNotificationClick = async (n: { _id: string; isRead: boolean; relatedOrderId?: string; type: string; title: string; message: string; createdAt: number }) => {
     if (!n.isRead) {
-      await markRead({ notificationId: n._id });
+      await markRead({ notificationId: n._id as Id<"notifications"> });
     }
     setIsNotificationsOpen(false);
     if (n.relatedOrderId) {
@@ -196,7 +196,7 @@ export default function Layout() {
                         </div>
                       ) : (
                         <div className="divide-y divide-[#F0EDE8]">
-                          {notifications.map(n => (
+                          {notifications.map((n: { _id: string; isRead: boolean; type: string; title: string; message: string; createdAt: number }) => (
                             <div 
                               key={n._id} 
                               onClick={() => handleNotificationClick(n)}

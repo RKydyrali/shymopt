@@ -25,17 +25,17 @@ export function useCart() {
   const removeMutation = useMutation(api.cart.remove);
   const clearMutation = useMutation(api.cart.clear);
 
-  const validCartItems = cartQuery ? cartQuery.filter((item): item is NonNullable<typeof item> => item !== null) : [];
+  const validCartItems = cartQuery ? cartQuery.filter(item => item !== null) : [];
 
   const items: CartItem[] = validCartItems.map(item => ({
-    lotId: item.lotId,
-    farmerId: item.lot?.farmerId as Id<"users">,
-    name: item.lot?.title || 'Товар',
-    type: item.lot?.unitType || 'шт',
-    price: item.lot?.pricePerUnit || 0,
-    qty: item.quantity,
-    weight: item.lot?.unitWeight || 0,
-    photoUrl: item.lot?.photoUrl,
+    lotId: item!.lotId,
+    farmerId: item!.lot?.farmerId as Id<"users">,
+    name: item!.lot?.title || 'Товар',
+    type: item!.lot?.unitType || 'шт',
+    price: item!.lot?.pricePerUnit || 0,
+    qty: item!.quantity,
+    weight: item!.lot?.unitWeight || 0,
+    photoUrl: item!.lot?.photoUrl,
   }));
 
   const addItem = async (item: CartItem) => {
