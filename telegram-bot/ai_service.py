@@ -4,13 +4,13 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-SPEECH_TO_TEXT_KEY = "sk-XKPw6Bbs2tIL9wZ6DCcGSQ"
+SPEECH_TO_TEXT_KEY = os.getenv("ALEM_SPEECH_TO_TEXT_KEY", "")
 SPEECH_TO_TEXT_URL = "https://llm.alem.ai/v1/audio/transcriptions"
 
-KAZAKH_LLM_KEY = "sk-QTgxbgcCPHNz_dimhHiFHg"
+KAZAKH_LLM_KEY = os.getenv("ALEM_KAZAKH_LLM_KEY", "")
 KAZAKH_LLM_URL = "https://llm.alem.ai/v1/chat/completions"
 
-RUSSIAN_LLM_KEY = "sk-G2Bn87T-POf7BmLKAASzyw"
+RUSSIAN_LLM_KEY = os.getenv("ALEM_RUSSIAN_LLM_KEY", "")
 RUSSIAN_LLM_URL = "https://llm.alem.ai/v1/chat/completions"
 
 
@@ -128,6 +128,7 @@ async def parse_lot_from_text(text: str) -> dict:
 async def get_clarifying_questions(accumulated_text: str, parsed_data: dict) -> str:
     """Generate clarifying questions for lot creation"""
     import json
+
     system_prompt = """Ты дружелюбный ИИ-помощник фермера. Фермер хочет создать лот для продажи.
 Тебе переданы текст фермера и уже извлеченные данные в формате JSON.
 
@@ -148,7 +149,10 @@ async def get_clarifying_questions(accumulated_text: str, parsed_data: dict) -> 
     return await chat_russian(
         [
             {"role": "system", "content": system_prompt},
-            {"role": "user", "content": f"Текст фермера: {accumulated_text}\nИзвлеченные данные: {json.dumps(parsed_data, ensure_ascii=False)}"},
+            {
+                "role": "user",
+                "content": f"Текст фермера: {accumulated_text}\nИзвлеченные данные: {json.dumps(parsed_data, ensure_ascii=False)}",
+            },
         ]
     )
 
@@ -190,10 +194,14 @@ async def get_farm_advice(question: str) -> str:
         ]
     )
 
-async def extract_specific_parameter(expected_param: str, context: str, user_message: str) -> dict:
+
+async def extract_specific_parameter(
+    expected_param: str, context: str, user_message: str
+) -> dict:
     """Flexible Entity Extractor for intermediate dialogue steps"""
     import json
     import re
+
     system_prompt = f"""Ты — модуль извлечения данных для маркетплейса. Твоя задача — найти целевое значение в ответе пользователя.
 Текущий ожидаемый параметр: {expected_param}
 Контекст разговора: {context}
@@ -213,7 +221,7 @@ async def extract_specific_parameter(expected_param: str, context: str, user_mes
             {"role": "user", "content": user_message},
         ]
     )
-    
+
     try:
         json_match = re.search(r"\{.*\}", response, re.DOTALL)
         if json_match:
@@ -227,13 +235,13 @@ async def validate_confirmation(current_data: dict, user_message: str) -> dict:
     """Smart Confirmation Validator"""
     import json
     import re
-    
+
     system_prompt = f"""Пользователь проверяет заполненную карточку товара.
 Текущие данные лота:
-- Товар: {current_data.get('title', '')}
-- Тара: {current_data.get('unitType', '')}
-- Цена: {current_data.get('pricePerUnit', '')}
-- Вес единицы: {current_data.get('unitWeight', '')}
+- Товар: {current_data.get("title", "")}
+- Тара: {current_data.get("unitType", "")}
+- Цена: {current_data.get("pricePerUnit", "")}
+- Вес единицы: {current_data.get("unitWeight", "")}
 
 Ответ пользователя: "{user_message}"
 
@@ -257,7 +265,7 @@ async def validate_confirmation(current_data: dict, user_message: str) -> dict:
             {"role": "user", "content": user_message},
         ]
     )
-    
+
     try:
         json_match = re.search(r"\{.*\}", response, re.DOTALL)
         if json_match:
@@ -265,4 +273,3 @@ async def validate_confirmation(current_data: dict, user_message: str) -> dict:
     except Exception:
         pass
     return {"intent": "confirm", "updated_fields": {}, "message_to_user": ""}
-

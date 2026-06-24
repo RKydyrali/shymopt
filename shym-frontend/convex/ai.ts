@@ -4,13 +4,13 @@
 import { v } from "convex/values";
 import { action } from "./_generated/server";
 
-const SPEECH_TO_TEXT_KEY = "sk-XKPw6Bbs2tIL9wZ6DCcGSQ";
+const SPEECH_TO_TEXT_KEY = process.env.ALEM_SPEECH_TO_TEXT_KEY;
 const SPEECH_TO_TEXT_URL = "https://llm.alem.ai/v1/audio/transcriptions";
 
-const KAZAKH_LLM_KEY = "sk-QTgxbgcCPHNz_dimhHiFHg";
+const KAZAKH_LLM_KEY = process.env.ALEM_KAZAKH_LLM_KEY;
 const KAZAKH_LLM_URL = "https://llm.alem.ai/v1/chat/completions";
 
-const RUSSIAN_LLM_KEY = "sk-G2Bn87T-POf7BmLKAASzyw";
+const RUSSIAN_LLM_KEY = process.env.ALEM_RUSSIAN_LLM_KEY;
 const RUSSIAN_LLM_URL = "https://llm.alem.ai/v1/chat/completions";
 
 export const transcribeAudio = action({
