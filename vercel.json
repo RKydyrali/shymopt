@@ -1,0 +1,5 @@
+{
+  "buildCommand": "cd shym-frontend && npm install && npm run build",
+  "outputDirectory": "shym-frontend/dist",
+  "installCommand": "cd shym-frontend && npm install"
+}
