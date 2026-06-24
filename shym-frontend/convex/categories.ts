@@ -68,6 +68,46 @@ export const update = mutation({
   },
 });
 
+export const resetAndSeed = mutation({
+  args: {},
+  handler: async (ctx) => {
+    const existing = await ctx.db.query("categories").collect();
+    for (const cat of existing) {
+      await ctx.db.delete(cat._id);
+    }
+
+    const categories = [
+      { name: "Огурцы", nameKz: "Қияр", icon: "🥒", order: 1 },
+      { name: "Помидоры", nameKz: "Қызанақ", icon: "🍅", order: 2 },
+      { name: "Картофель", nameKz: "Картоп", icon: "🥔", order: 3 },
+      { name: "Морковь", nameKz: "Сәбіз", icon: "🥕", order: 4 },
+      { name: "Лук", nameKz: "Пияз", icon: "🧅", order: 5 },
+      { name: "Капуста", nameKz: "Қырыққабат", icon: "🥬", order: 6 },
+      { name: "Перец", nameKz: "Бұрыш", icon: "🫑", order: 7 },
+      { name: "Кабачки", nameKz: "Асқабақ", icon: "🥒", order: 8 },
+      { name: "Яблоки", nameKz: "Алма", icon: "🍎", order: 9 },
+      { name: "Виноград", nameKz: "Жүзім", icon: "🍇", order: 10 },
+      { name: "Груши", nameKz: "Алмұрт", icon: "🍐", order: 11 },
+      { name: "Арбузы", nameKz: "Қарбыз", icon: "🍉", order: 12 },
+      { name: "Дыни", nameKz: "Қауын", icon: "🍈", order: 13 },
+      { name: "Абрикосы", nameKz: "Шие", icon: "🍑", order: 14 },
+      { name: "Сливы", nameKz: "Өрік", icon: "🍑", order: 15 },
+      { name: "Зелень", nameKz: "Жасылша", icon: "🌿", order: 16 },
+      { name: "Клубника", nameKz: "Құлпырай", icon: "🍓", order: 17 },
+      { name: "Свёкла", nameKz: "Қызылша", icon: "🫒", order: 18 },
+    ];
+
+    for (const cat of categories) {
+      await ctx.db.insert("categories", {
+        ...cat,
+        isActive: true,
+      });
+    }
+
+    return "Категории пересозданы: " + categories.length;
+  },
+});
+
 export const seed = mutation({
   args: {},
   handler: async (ctx) => {
@@ -75,16 +115,24 @@ export const seed = mutation({
     if (existing) return "Категории уже созданы";
 
     const categories = [
-      { name: "Овощи", nameKz: "Көкөністер", icon: "🥬", order: 1 },
-      { name: "Фрукты", nameKz: "Жемістер", icon: "🍎", order: 2 },
-      { name: "Ягоды", nameKz: "Жидектер", icon: "🍓", order: 3 },
-      { name: "Зелень", nameKz: "Жасылша", icon: "🌿", order: 4 },
-      { name: "Грибы", nameKz: "Саңырауқұлақтар", icon: "🍄", order: 5 },
-      { name: "Молочные", nameKz: "Сүт өнімдері", icon: "🥛", order: 6 },
-      { name: "Мясо", nameKz: "Ет", icon: "🥩", order: 7 },
-      { name: "Выпечка", nameKz: "Тағамдар", icon: "🍞", order: 8 },
-      { name: "Мёд", nameKz: "Бал", icon: "🍯", order: 9 },
-      { name: "Орехи", nameKz: "Жаңғақтар", icon: "🥜", order: 10 },
+      { name: "Огурцы", nameKz: "Қияр", icon: "🥒", order: 1 },
+      { name: "Помидоры", nameKz: "Қызанақ", icon: "🍅", order: 2 },
+      { name: "Картофель", nameKz: "Картоп", icon: "🥔", order: 3 },
+      { name: "Морковь", nameKz: "Сәбіз", icon: "🥕", order: 4 },
+      { name: "Лук", nameKz: "Пияз", icon: "🧅", order: 5 },
+      { name: "Капуста", nameKz: "Қырыққабат", icon: "🥬", order: 6 },
+      { name: "Перец", nameKz: "Бұрыш", icon: "🫑", order: 7 },
+      { name: "Кабачки", nameKz: "Асқабақ", icon: "🥒", order: 8 },
+      { name: "Яблоки", nameKz: "Алма", icon: "🍎", order: 9 },
+      { name: "Виноград", nameKz: "Жүзім", icon: "🍇", order: 10 },
+      { name: "Груши", nameKz: "Алмұрт", icon: "🍐", order: 11 },
+      { name: "Арбузы", nameKz: "Қарбыз", icon: "🍉", order: 12 },
+      { name: "Дыни", nameKz: "Қауын", icon: "🍈", order: 13 },
+      { name: "Абрикосы", nameKz: "Шие", icon: " apricot", order: 14 },
+      { name: "Сливы", nameKz: "Өрік", icon: "🍑", order: 15 },
+      { name: "Зелень", nameKz: "Жасылша", icon: "🌿", order: 16 },
+      { name: "Клубника", nameKz: "Құлпырай", icon: "🍓", order: 17 },
+      { name: "Свёкла", nameKz: "Қызылша", icon: "🫒", order: 18 },
     ];
 
     for (const cat of categories) {
