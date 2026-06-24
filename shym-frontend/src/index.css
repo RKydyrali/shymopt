@@ -1,0 +1,161 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap');
+
+@theme {
+  /* ─── Typography ─────────────────────────────────── */
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-serif: 'Playfair Display', Georgia, serif;
+
+  /* ─── Color Palette: Modern Agritech ────────────── */
+  /* App / Page backgrounds */
+  --color-background: #F9F8F6;         /* Warm Sand */
+  --color-foreground: #2D2D2D;         /* Charcoal */
+
+  /* Surfaces */
+  --color-card: #FFFFFF;
+  --color-card-foreground: #2D2D2D;
+  --color-popover: #FFFFFF;
+  --color-popover-foreground: #2D2D2D;
+
+  /* Primary action — Terracotta */
+  --color-primary: #E04F33;
+  --color-primary-foreground: #FFFFFF;
+
+  /* Secondary — Sage Green */
+  --color-secondary: #4A7C59;
+  --color-secondary-foreground: #FFFFFF;
+
+  /* Muted tones */
+  --color-muted: #F0EDE8;
+  --color-muted-foreground: #7A7065;
+
+  /* Accent — Warm Ochre */
+  --color-accent: #F4A261;
+  --color-accent-foreground: #2D2D2D;
+
+  /* Semantic */
+  --color-destructive: #C93B25;
+  --color-destructive-foreground: #FFFFFF;
+  --color-border: #E8E4DE;
+  --color-input: #E8E4DE;
+  --color-ring: #E04F33;
+
+  /* Brand shortcuts */
+  --color-brand-background: #F9F8F6;
+  --color-brand-surface: #FFFFFF;
+  --color-brand-text: #2D2D2D;
+  --color-brand-accent: #E04F33;
+  --color-brand-sage: #4A7C59;
+  --color-brand-ochre: #F4A261;
+  --color-brand-muted: #7A7065;
+
+  /* Terracotta tints for hover states */
+  --color-terracotta-50: #FDF2F0;
+  --color-terracotta-100: #FAE0DB;
+  --color-terracotta-500: #E04F33;
+  --color-terracotta-600: #C93B25;
+
+  /* Sage tints */
+  --color-sage-50: #EEF4F1;
+  --color-sage-100: #D7E8DF;
+  --color-sage-500: #4A7C59;
+  --color-sage-600: #3A6347;
+
+  /* ─── Border Radius ──────────────────────────────── */
+  --radius: 0.625rem;
+  --radius-sm: calc(var(--radius) - 2px);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) + 4px);
+  --radius-xl: calc(var(--radius) + 8px);
+  --radius-2xl: calc(var(--radius) + 14px);
+  --radius-3xl: 1.5rem;
+
+  /* ─── Shadows ────────────────────────────────────── */
+  --shadow-card: 0 4px 12px rgba(45, 45, 45, 0.06);
+  --shadow-card-hover: 0 8px 24px rgba(45, 45, 45, 0.10);
+  --shadow-sm: 0 1px 3px rgba(45, 45, 45, 0.08);
+
+  /* ─── Animations ─────────────────────────────────── */
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+  --animate-fade-in: fade-in 0.3s ease-out;
+  --animate-slide-up: slide-up 0.4s ease-out;
+
+  @keyframes accordion-down {
+    from { height: 0; }
+    to { height: var(--radix-accordion-content-height); }
+  }
+  @keyframes accordion-up {
+    from { height: var(--radix-accordion-content-height); }
+    to { height: 0; }
+  }
+  @keyframes fade-in {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes slide-up {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+}
+
+/* ─── Base Reset ──────────────────────────────────────── */
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  * {
+    border-color: var(--color-border);
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    line-height: 1.6;
+  }
+
+  /* Headings use Inter by default, h1/h2 can opt-in to serif */
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+    line-height: 1.25;
+    color: var(--color-foreground);
+  }
+}
+
+/* ─── Utility Classes ─────────────────────────────────── */
+@layer utilities {
+  .font-serif {
+    font-family: var(--font-serif);
+  }
+
+  .shadow-card {
+    box-shadow: var(--shadow-card);
+  }
+
+  .shadow-card-hover {
+    box-shadow: var(--shadow-card-hover);
+  }
+
+  .animate-fade-in {
+    animation: var(--animate-fade-in);
+  }
+
+  .animate-slide-up {
+    animation: var(--animate-slide-up);
+  }
+
+  /* Smooth scrollbar */
+  .scroll-smooth-y {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-border) transparent;
+  }
+}

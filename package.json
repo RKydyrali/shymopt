@@ -1,0 +1,24 @@
+{
+  "name": "shym",
+  "version": "1.0.0",
+  "description": "ShymOpt - Оптовая платформа для фермеров и покупателей",
+  "main": "index.js",
+  "scripts": {
+    "dev": "npx convex dev --typecheck=disable",
+    "deploy": "npx convex deploy",
+    "push": "npx convex push",
+    "seed": "npx convex run categories:seed",
+    "typecheck": "npx tsc --noEmit"
+  },
+  "keywords": ["convex", "farmers", "marketplace"],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "convex": "^1.42.0"
+  },
+  "devDependencies": {
+    "@types/node": "^26.0.0",
+    "typescript": "^6.0.3"
+  }
+}
